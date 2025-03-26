@@ -14,16 +14,26 @@
  * limitations under the License.
 */
 
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import Map from "./components/Map";
 import ToiletSearch from './components/ToiletSearch';
 import fetchNearby from './services/ToiletSearchService';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCaretRight,
+  faCaretLeft,
+} from "@fortawesome/free-solid-svg-icons";
+
+import "./style.css";
+
 const App = () => {
   const [currentLocation, setCurrentLocation] = useState({});
   const [markers, setMarkers] = useState([]);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
+
   const getLocation = () => {
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async function(position) {
@@ -50,17 +60,30 @@ const App = () => {
     }
   }, [currentLocation]);
 
+  const handleSidePanelToggle = () => setIsSidePanelOpen(!isSidePanelOpen);
+
 
   console.log(JSON.stringify(currentLocation));
   if(currentLocation && currentLocation.latitude && currentLocation.longitude){
+    const hasMarkers = markers != null && markers.length != 0;
     console.log('Render map!');
     return (
       <div>
-        <h1>Google Maps with Markers</h1>
-          <div>
+          <div className="map">
             <Map currentPosition={currentLocation} markers={markers}/>
           </div>
-          <ToiletSearch currentPosition={currentLocation} markers={markers} setMarkers={setMarkers}/>
+          {hasMarkers ? (
+          <div>
+            <div className={`sidepanel ${isSidePanelOpen ? "sidepanel--open" : ""}`}>
+              <ToiletSearch currentPosition={currentLocation} markers={markers} setMarkers={setMarkers}/>
+            </div>
+            <div className={`sidepanel-toggle-btn ${isSidePanelOpen ? "sidepanel-toggle-btn--open" : ""}`} onClick={handleSidePanelToggle}>
+              <div className={"toggle-icon-container"}>
+                <FontAwesomeIcon className={"toggle-icon"} icon={isSidePanelOpen ? faCaretLeft : faCaretRight} />
+              </div>
+            </div>
+          </div>
+          ):("")}
       </div>
     );
   }

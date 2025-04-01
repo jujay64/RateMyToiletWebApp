@@ -1,47 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import fetchNearby from '../services/ToiletSearchService';
+import React, {useEffect} from 'react';
+import { fetchWithinBox } from "../services/ToiletSearchService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
-const ToiletSearch = ({currentPosition, markers, setMarkers}) => {
-  const [radius, setRadius] = useState(2);
+const ToiletSearch = ({currentPosition, mapBounds, setMarkers, doInitialSearch, showSearchButton, setShowSearchButton}) => {
 
-  const handleSearch = async () => {
-    const results = await fetchNearby(currentPosition, radius);
-    console.log(JSON.stringify(results));
-    setMarkers(results);
-  };
+    const handleSearchInArea = async() => {
+      console.log("ToiletSearch : Fetch data called");
+      console.log('currentPosition : ' + JSON.stringify(currentPosition));
+      console.log('mapBounds : ' + JSON.stringify(mapBounds));
+      const lowerLeftCoords = mapBounds.current.getSouthWest();
+      const upperRightCoords = mapBounds.current.getNorthEast();
+      console.log('lower : ' + JSON.stringify(lowerLeftCoords));
+      console.log('upper : ' + JSON.stringify(upperRightCoords));
+      const results = await fetchWithinBox(currentPosition, lowerLeftCoords, upperRightCoords);
+      console.log('results : ' + JSON.stringify(results));
+      setMarkers(results);
+      setShowSearchButton(false);
+    }
 
-  return (
-    <div>
-      <h1>Search Toilets Within Radius</h1>
-      <div>
-        <label>
-          Latitude: {currentPosition.latitude}
-        </label>
-      </div>
-      <div>
-        <label>
-          Longitude: {currentPosition.longitude}
-        </label>
-      </div>
-      <div>
-        <label>
-          Radius (km):
-          <input type="text" value={radius} onChange={(e) => setRadius(e.target.value)} />
-        </label>
-      </div>
-      <button onClick={handleSearch}>Search</button>
-      <div>
-        <h2>Results:</h2>
-        <ul>
-          {markers?.map((toilet) => (
-            <li key={toilet.id}>
-              {toilet.name} - {toilet.distance}km
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+    useEffect(() => {
+      handleSearchInArea();
+    }, [doInitialSearch]);
+
+    console.log('Render search!');
+    return (
+        <div className="search-this-area">
+          {showSearchButton ? (
+          <button className="search-this-area-button" onClick={handleSearchInArea}>
+            <div className="search-button-inside">
+              <span className="search-button-icon-container"><FontAwesomeIcon className={"search-button-icon"} icon={faMagnifyingGlass} /></span>
+              <span>Search in this area</span>
+            </div>
+          </button>
+          ) : ""}
+        </div>
+    )
 };
 
 export default ToiletSearch;

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { fetchWithinBox } from "../services/ToiletSearchService";
+import { fetchWithinBox } from "../../services/ToiletSearchService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import "./ToiletSearch.css";
 
 const ToiletSearch = ({
   currentPosition,

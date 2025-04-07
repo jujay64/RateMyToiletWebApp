@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-import Map from "./components/Map";
-import ToiletResultPanel from "./components/ToiletResultPanel";
+import Map from "./components/Map/Map";
+import ToiletResultPanel from "./components/ToiletResultPanel/ToiletResultPanel";
 
 import "./style.css";
 

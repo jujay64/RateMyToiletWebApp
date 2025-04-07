@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import ToiletSearch from "./ToiletSearch";
+import ToiletSearch from "../ToiletSearch/ToiletSearch";
 
 const containerStyle = {
   width: "100%",

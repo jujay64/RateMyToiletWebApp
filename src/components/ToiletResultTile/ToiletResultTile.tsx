@@ -1,4 +1,5 @@
 import React from "react";
+import "./ToiletResultTile.css";
 
 const ToiletResultTile = ({ toilet }) => {
   return (

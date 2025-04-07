@@ -1,5 +1,5 @@
 import React from "react";
-import ToiletResultTile from "./ToiletResultTile";
+import ToiletResultTile from "../ToiletResultTile/ToiletResultTile";
 
 const ToiletResult = ({ markers }) => {
   return (

@@ -103,7 +103,7 @@ const Map = ({ markers, setMarkers }) => {
     currentPosition && currentPosition.lat && currentPosition.lng;
   const isSetBounds = mapBounds && mapBounds.current;
   return (
-    <div>
+    <>
       {isSetPosition ? (
         <LoadScript googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY}>
           {isSetBounds ? (
@@ -142,7 +142,7 @@ const Map = ({ markers, setMarkers }) => {
       ) : (
         ""
       )}
-    </div>
+    </>
   );
 };
 

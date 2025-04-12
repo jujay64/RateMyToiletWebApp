@@ -11,7 +11,7 @@ const ToiletResultPanel = ({ markers }) => {
 
   const handleSidePanelToggle = () => setIsSidePanelOpen(!isSidePanelOpen);
   return (
-    <div>
+    <>
       <div className={`sidepanel ${isSidePanelOpen ? "sidepanel--open" : ""}`}>
         <ToiletResult markers={markers} />
       </div>
@@ -28,7 +28,7 @@ const ToiletResultPanel = ({ markers }) => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

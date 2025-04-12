@@ -3,7 +3,7 @@ import ToiletResultTile from "../ToiletResultTile/ToiletResultTile";
 
 const ToiletResult = ({ markers }) => {
   return (
-    <div>
+    <>
       <h1>Search Toilets Within Radius</h1>
       <div>
         <h2>Results:</h2>
@@ -11,7 +11,7 @@ const ToiletResult = ({ markers }) => {
           <ToiletResultTile toilet={toilet} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

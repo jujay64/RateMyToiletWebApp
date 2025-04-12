@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { Map, AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 import ToiletSearch from "../ToiletSearch/ToiletSearch";
+import "./CustomMap.css";
 
 const containerStyle = {
   width: "100%",
@@ -11,19 +12,26 @@ const containerStyle = {
 const Markers = ({ markers }) => {
   return markers?.map((marker) => {
     return (
-      <Marker key={marker.id} position={marker.position} title={marker.name} />
+      <AdvancedMarker
+        key={marker.id}
+        position={marker.position}
+        title={marker.name}
+        label={{ text: `${marker.name}`, className: "marker-label" }}
+      >
+        <Pin background={"#FBBC04"} glyphColor={"#000"} borderColor={"#000"} />
+      </AdvancedMarker>
     );
   });
 };
 
-const Map = ({ markers, setMarkers }) => {
-  const [map, setMap] = useState({});
+const CustomMap = ({ markers, setMarkers }) => {
+  const map = useMap();
   const [currentPosition, setCurrentPosition] = useState({});
   const [doInitialSearch, setDoInitialSearch] = useState(false);
   const [showSearchButton, setShowSearchButton] = useState(false);
 
   let mapBounds = useRef({});
-  let center = useRef({});
+
   let isInit = useRef(true);
 
   const getCurrentPosition = () => {
@@ -33,7 +41,6 @@ const Map = ({ markers, setMarkers }) => {
           const latitude = await position.coords.latitude;
           const longitude = await position.coords.longitude;
           setCurrentPosition({ lat: latitude, lng: longitude });
-          center.current = { lat: latitude, lng: longitude };
         },
         function (msg) {
           alert("Please authorize GPS position feature.");
@@ -48,26 +55,17 @@ const Map = ({ markers, setMarkers }) => {
   }, []);
 
   const handleOnIdle = () => {
+    if (!map) return;
     console.log("show search button ? " + (showSearchButton === true));
     console.log(
       "bounds : old = " +
         JSON.stringify(mapBounds.current) +
         ", new=" +
-        JSON.stringify(map.state.map.getBounds())
+        JSON.stringify(map.getBounds())
     );
-    const hasMoved = checkHasMoved(
-      mapBounds.current,
-      map.state.map.getBounds()
-    );
-    mapBounds.current = map.state.map.getBounds();
+    const hasMoved = checkHasMoved(mapBounds.current, map.getBounds());
+    mapBounds.current = map.getBounds();
     console.log("Map bounds : " + JSON.stringify(mapBounds));
-    const lat = map.state.map.getCenter().lat();
-    const lng = map.state.map.getCenter().lng();
-    const mapCenter = {
-      lat: lat,
-      lng: lng,
-    };
-    center.current = mapCenter; // move the marker to new location
     console.log("init ? " + (isInit.current === true ? "true" : "false"));
     if (isInit.current === true) {
       setDoInitialSearch(true);
@@ -105,7 +103,7 @@ const Map = ({ markers, setMarkers }) => {
   return (
     <>
       {isSetPosition ? (
-        <LoadScript googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY}>
+        <div>
           {isSetBounds ? (
             <ToiletSearch
               currentPosition={currentPosition}
@@ -118,27 +116,34 @@ const Map = ({ markers, setMarkers }) => {
           ) : (
             ""
           )}
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={{ lat: center.current.lat, lng: center.current.lng }}
-            zoom={16}
+          <Map
+            mapId={process.env.GOOGLE_MAPS_API_KEY}
+            style={containerStyle}
+            defaultCenter={currentPosition}
+            defaultZoom={16}
             options={{
               scaleControl: true,
               zoomControl: true,
               mapTypeControl: false,
             }}
-            ref={setMap}
+            disableDefaultUI={true}
             onIdle={handleOnIdle}
           >
             <Markers markers={markers} />
-            <Marker
+            <AdvancedMarker
               key={"myPos"}
               icon="http://www.robotwoods.com/dev/misc/bluecircle.png"
-              position={{ lat: currentPosition.lat, lng: currentPosition.lng }}
+              position={currentPosition}
               title={"Current position"}
-            />
-          </GoogleMap>
-        </LoadScript>
+            >
+              <Pin
+                background={"#FBBC04"}
+                glyphColor={"#000"}
+                borderColor={"#000"}
+              />
+            </AdvancedMarker>
+          </Map>
+        </div>
       ) : (
         ""
       )}
@@ -146,4 +151,4 @@ const Map = ({ markers, setMarkers }) => {
   );
 };
 
-export default Map;
+export default CustomMap;

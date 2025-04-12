@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-
-import Map from "./components/Map/Map";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import CustomMap from "./components/CustomMap/CustomMap";
 import ToiletResultPanel from "./components/ToiletResultPanel/ToiletResultPanel";
 
 import "./style.css";
@@ -13,9 +13,11 @@ const App = () => {
   return (
     <div>
       <div className="map">
-        <Map markers={markers} setMarkers={setMarkers} />
+        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+          <CustomMap markers={markers} setMarkers={setMarkers} />
+        </APIProvider>
       </div>
-      {hasMarkers ? <ToiletResultPanel markers={markers} /> : ""}
+      {hasMarkers && <ToiletResultPanel markers={markers} />}
     </div>
   );
 };

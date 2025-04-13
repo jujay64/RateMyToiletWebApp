@@ -1,9 +1,14 @@
 import React from "react";
 import "./ToiletResultTile.css";
 
-const ToiletResultTile = ({ toilet }) => {
+const ToiletResultTile = ({ toilet, selectedMarkerId }) => {
   return (
-    <div className={"tileContainer fontBodyMedium"}>
+    <div
+      className={
+        "tileContainer fontBodyMedium" +
+        (toilet.id === selectedMarkerId ? " selected" : "")
+      }
+    >
       <div className="title fontHeadlineSmall">
         {toilet.name} · {toilet.distance}km
       </div>

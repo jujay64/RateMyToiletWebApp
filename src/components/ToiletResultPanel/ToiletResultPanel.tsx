@@ -6,14 +6,17 @@ import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 
 import "./ToiletResultPanel.css";
 
-const ToiletResultPanel = ({ markers }) => {
+const ToiletResultPanel = (props) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   const handleSidePanelToggle = () => setIsSidePanelOpen(!isSidePanelOpen);
   return (
     <>
       <div className={`sidepanel ${isSidePanelOpen ? "sidepanel--open" : ""}`}>
-        <ToiletResult markers={markers} />
+        <ToiletResult
+          markers={props.markers}
+          selectedMarkerId={props.selectedMarkerId}
+        />
       </div>
       <div
         className={`sidepanel-toggle-btn ${

@@ -8,16 +8,33 @@ import "./style.css";
 
 const App = () => {
   const [markers, setMarkers] = useState([]);
+  const [hoverMarkerId, setHoverMarkerId] = useState(null);
+  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
   const hasMarkers = markers != null && markers.length != 0;
   return (
     <div>
       <div className="map">
         <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
-          <CustomMap markers={markers} setMarkers={setMarkers} />
+          <CustomMap
+            markers={markers}
+            setMarkers={setMarkers}
+            hoverMarkerId={hoverMarkerId}
+            setHoverMarkerId={setHoverMarkerId}
+            selectedMarkerId={selectedMarkerId}
+            setSelectedMarkerId={setSelectedMarkerId}
+          />
         </APIProvider>
       </div>
-      {hasMarkers && <ToiletResultPanel markers={markers} />}
+      {hasMarkers && (
+        <ToiletResultPanel
+          markers={markers}
+          hoverMarkerId={hoverMarkerId}
+          setHoverMarkerId={setHoverMarkerId}
+          selectedMarkerId={selectedMarkerId}
+          setSelectedMarkerId={setSelectedMarkerId}
+        />
+      )}
     </div>
   );
 };

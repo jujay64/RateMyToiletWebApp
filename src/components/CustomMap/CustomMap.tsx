@@ -9,22 +9,41 @@ const containerStyle = {
   position: "absolute",
 };
 
-const Markers = ({ markers }) => {
+const Markers = ({
+  markers,
+  hoverMarkerId,
+  setHoverMarkerId,
+  selectedMarkerId,
+  setSelectedMarkerId,
+}) => {
   return markers?.map((marker) => {
     return (
       <AdvancedMarker
         key={marker.id}
         position={marker.position}
         title={marker.name}
-        label={{ text: `${marker.name}`, className: "marker-label" }}
+        onMouseEnter={() => setHoverMarkerId(marker.id)}
+        onMouseLeave={() => setHoverMarkerId(null)}
+        onClick={() => setSelectedMarkerId(marker.id)}
+        className={"custom-marker"}
+        style={{
+          transform: `scale(${
+            [hoverMarkerId, selectedMarkerId].includes(marker.id) ? 1.3 : 1
+          })`,
+          //transformOrigin: AdvancedMarkerAnchorPoint["BOTTOM"].join(" "),
+        }}
       >
-        <Pin background={"#FBBC04"} glyphColor={"#000"} borderColor={"#000"} />
+        <Pin
+          background={selectedMarkerId === marker.id ? "#22ccff" : null}
+          borderColor={selectedMarkerId === marker.id ? "#1e89a1" : null}
+          glyphColor={selectedMarkerId === marker.id ? "#0f677a" : null}
+        />
       </AdvancedMarker>
     );
   });
 };
 
-const CustomMap = ({ markers, setMarkers }) => {
+const CustomMap = (props) => {
   const map = useMap();
   const [currentPosition, setCurrentPosition] = useState({});
   const [doInitialSearch, setDoInitialSearch] = useState(false);
@@ -108,7 +127,7 @@ const CustomMap = ({ markers, setMarkers }) => {
             <ToiletSearch
               currentPosition={currentPosition}
               mapBounds={mapBounds}
-              setMarkers={setMarkers}
+              setMarkers={props.setMarkers}
               doInitialSearch={doInitialSearch}
               showSearchButton={showSearchButton}
               setShowSearchButton={setShowSearchButton}
@@ -117,7 +136,7 @@ const CustomMap = ({ markers, setMarkers }) => {
             ""
           )}
           <Map
-            mapId={process.env.GOOGLE_MAPS_API_KEY}
+            mapId={process.env.GOOGLE_MAP_ID}
             style={containerStyle}
             defaultCenter={currentPosition}
             defaultZoom={16}
@@ -129,17 +148,21 @@ const CustomMap = ({ markers, setMarkers }) => {
             disableDefaultUI={true}
             onIdle={handleOnIdle}
           >
-            <Markers markers={markers} />
+            <Markers
+              markers={props.markers}
+              hoverMarkerId={props.hoverMarkerId}
+              setHoverMarkerId={props.setHoverMarkerId}
+              selectedMarkerId={props.selectedMarkerId}
+              setSelectedMarkerId={props.setSelectedMarkerId}
+            />
             <AdvancedMarker
               key={"myPos"}
-              icon="http://www.robotwoods.com/dev/misc/bluecircle.png"
               position={currentPosition}
               title={"Current position"}
             >
-              <Pin
-                background={"#FBBC04"}
-                glyphColor={"#000"}
-                borderColor={"#000"}
+              <img
+                src="http://www.robotwoods.com/dev/misc/bluecircle.png"
+                alt="current position"
               />
             </AdvancedMarker>
           </Map>

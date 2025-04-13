@@ -16,6 +16,9 @@ const ToiletResultPanel = (props) => {
         <ToiletResult
           markers={props.markers}
           selectedMarkerId={props.selectedMarkerId}
+          hoverMarkerId={props.hoverMarkerId}
+          setSelectedMarkerId={props.setSelectedMarkerId}
+          setHoverMarkerId={props.setHoverMarkerId}
         />
       </div>
       <div

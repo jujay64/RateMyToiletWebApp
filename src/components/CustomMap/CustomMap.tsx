@@ -34,9 +34,9 @@ const Markers = ({
         }}
       >
         <Pin
-          background={selectedMarkerId === marker.id ? "#22ccff" : null}
-          borderColor={selectedMarkerId === marker.id ? "#1e89a1" : null}
-          glyphColor={selectedMarkerId === marker.id ? "#0f677a" : null}
+          background={selectedMarkerId === marker.id ? "#04aa6d" : null}
+          borderColor={selectedMarkerId === marker.id ? "#405d27" : null}
+          glyphColor={selectedMarkerId === marker.id ? "#405d27" : null}
         />
       </AdvancedMarker>
     );

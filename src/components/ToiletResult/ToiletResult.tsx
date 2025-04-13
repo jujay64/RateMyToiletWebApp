@@ -1,7 +1,13 @@
 import React from "react";
 import ToiletResultTile from "../ToiletResultTile/ToiletResultTile";
 
-const ToiletResult = ({ markers, selectedMarkerId }) => {
+const ToiletResult = ({
+  markers,
+  selectedMarkerId,
+  hoverMarkerId,
+  setSelectedMarkerId,
+  setHoverMarkerId,
+}) => {
   return (
     <>
       <h1>Search Toilets Within Radius</h1>
@@ -11,6 +17,9 @@ const ToiletResult = ({ markers, selectedMarkerId }) => {
           <ToiletResultTile
             toilet={toilet}
             selectedMarkerId={selectedMarkerId}
+            hoverMarkerId={hoverMarkerId}
+            setSelectedMarkerId={setSelectedMarkerId}
+            setHoverMarkerId={setHoverMarkerId}
           />
         ))}
       </div>

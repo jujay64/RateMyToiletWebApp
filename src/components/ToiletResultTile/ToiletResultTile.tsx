@@ -1,13 +1,27 @@
 import React from "react";
 import "./ToiletResultTile.css";
 
-const ToiletResultTile = ({ toilet, selectedMarkerId }) => {
+const ToiletResultTile = ({
+  toilet,
+  selectedMarkerId,
+  hoverMarkerId,
+  setSelectedMarkerId,
+  setHoverMarkerId,
+}) => {
+  const additionalClassName =
+    selectedMarkerId === toilet.id
+      ? " selected"
+      : hoverMarkerId === toilet.id
+      ? " hover"
+      : "";
   return (
     <div
-      className={
-        "tileContainer fontBodyMedium" +
-        (toilet.id === selectedMarkerId ? " selected" : "")
-      }
+      className={"tileContainer fontBodyMedium" + additionalClassName}
+      onClick={() => {
+        setSelectedMarkerId(toilet.id);
+      }}
+      onMouseEnter={() => setHoverMarkerId(toilet.id)}
+      onMouseLeave={() => setHoverMarkerId(null)}
     >
       <div className="title fontHeadlineSmall">
         {toilet.name} · {toilet.distance}km

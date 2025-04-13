@@ -1,8 +1,17 @@
 .tileContainer {
-  margin-bottom: 10px;
-  border-bottom: #f0f8ff 1px solid;
+  border-bottom: #c4b7a6 1px solid;
+  padding: 10px 0;
 }
 
 .tileContainer.selected {
-  background-color: #f0f8ff;
+  background-color: #04aa6d;
+  color: white;
+}
+
+.tileContainer.hover {
+  background-color: #d6cbd3;
+}
+
+.tileContainer:hover {
+  cursor: pointer;
 }

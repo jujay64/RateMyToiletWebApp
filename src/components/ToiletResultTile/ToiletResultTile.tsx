@@ -1,5 +1,6 @@
 import React from "react";
 import "./ToiletResultTile.css";
+import ReactStars from "react-rating-stars-component";
 
 const ToiletResultTile = ({
   toilet,
@@ -27,7 +28,16 @@ const ToiletResultTile = ({
         {toilet.name} · {toilet.distance}km
       </div>
       <div className="rating">
-        {toilet.rating} ({toilet.ratingCount})
+        {toilet.rating}
+        <ReactStars
+          count={5}
+          size={15}
+          activeColor="#ffd700"
+          edit={false}
+          value={toilet.rating}
+          isHalf={true}
+        />
+        ({toilet.ratingCount})
       </div>
       <div className="typeAddress">
         <span>{toilet.type}</span> · <span>{toilet.address}</span>

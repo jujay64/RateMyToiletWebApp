@@ -53,6 +53,21 @@ const CustomMap = (props) => {
 
   let isInit = useRef(true);
 
+  useEffect(() => {
+    if (!props.selectedMarkerId) return;
+    console.log("Selected marker ID:", props.selectedMarkerId);
+    //Get position of selected marker
+    const selectedMarker = props.markers.find(
+      (marker) => marker.id === props.selectedMarkerId
+    );
+    if (selectedMarker) {
+      const { lat, lng } = selectedMarker.position;
+      console.log("Selected marker position:", { lat, lng });
+      //setCurrentPosition({ lat, lng });
+      map?.panTo({ lat, lng });
+    }
+  }, [props.selectedMarkerId]);
+
   const getCurrentPosition = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

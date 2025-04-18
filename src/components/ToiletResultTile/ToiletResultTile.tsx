@@ -27,18 +27,23 @@ const ToiletResultTile = ({
       <div className="title fontHeadlineSmall">
         {toilet.name} · {toilet.distance}km
       </div>
-      <div className="rating">
-        {toilet.rating}
-        <ReactStars
-          count={5}
-          size={15}
-          activeColor="#ffd700"
-          edit={false}
-          value={toilet.rating}
-          isHalf={true}
-        />
-        ({toilet.ratingCount})
-      </div>
+      {toilet.ratingCount > 0 ? (
+        <div className="rating">
+          {toilet.rating}
+          <ReactStars
+            key={toilet.id}
+            count={5}
+            size={15}
+            activeColor="#ffd700"
+            edit={false}
+            value={toilet.rating}
+            isHalf={true}
+          />
+          ({toilet.ratingCount})
+        </div>
+      ) : (
+        <div className="rating">No reviews yet</div>
+      )}
       <div className="typeAddress">
         <span>{toilet.type}</span> · <span>{toilet.address}</span>
       </div>

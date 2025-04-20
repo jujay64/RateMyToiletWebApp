@@ -1,6 +1,6 @@
 .tileContainer {
   border-bottom: #c4b7a6 1px solid;
-  padding: 10px 0;
+  padding: 10px 5px;
 }
 
 .tileContainer.selected {
@@ -14,4 +14,11 @@
 
 .tileContainer:hover {
   cursor: pointer;
+}
+
+.tileContainer .ratingStars {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: text-bottom;
+  margin: 0 2px;
 }

@@ -8,10 +8,11 @@ import "./style.css";
 
 const App = () => {
   const [markers, setMarkers] = useState([]);
+  const [toiletDetails, setToiletDetails] = useState({});
   const [hoverMarkerId, setHoverMarkerId] = useState(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
-
   const hasMarkers = markers != null && markers.length != 0;
+
   return (
     <div>
       <div className="map">

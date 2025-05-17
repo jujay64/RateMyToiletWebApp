@@ -57,4 +57,34 @@ const fetchWithinBox = async (
     .catch((error) => console.error("Error fetching data:", error));
 };
 
-export { fetchNearby, fetchWithinBox };
+const fetchDetails = async (currentPosition, googlePlaceId, type) => {
+  console.log("fetchDetails called");
+  console.log("currentPosition : " + currentPosition);
+  console.log("toilet type : " + type);
+  // if type is public_bathroom, we need to fetch with google maps reviews and photos
+  let isFetchWithGoogleMapsReviews = type === "public_bathroom" ? true : false;
+  return fetch(
+    `https://${process.env.BACK_END_API_DOMAIN}:${process.env.BACK_END_API_PORT}${process.env.BACK_END_API_DETAILS_GET_URI}/${googlePlaceId}?currentPositionLatitude=${currentPosition.lat}&currentPositionLongitude=${currentPosition.lng}&isFetchWithGoogleMapsReviews=${isFetchWithGoogleMapsReviews}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const toilet = {
+        id: data.id,
+        googlePlaceId: data.googlePlaceId,
+        position: { lat: data.latitude, lng: data.longitude },
+        name: data.name,
+        type: data.type,
+        address: data.address,
+        rating: data.rating,
+        ratingCount: data.ratingCount,
+        distance: data.distance,
+        reviews: data.reviews,
+        photos: data.photos,
+        googleMapsPhotos: data.googleMapsPhotos,
+      };
+      return toilet;
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+};
+
+export { fetchNearby, fetchWithinBox, fetchDetails };

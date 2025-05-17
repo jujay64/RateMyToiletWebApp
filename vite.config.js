@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
     BACK_END_API_PORT = "",
     BACK_END_API_NEARBY_GET_URI = "",
     BACK_END_API_WITHIN_BOX_GET_URI = "",
+    BACK_END_API_DETAILS_GET_URI = "",
   } = loadEnv(mode, process.cwd(), "");
 
   return {
@@ -21,6 +22,9 @@ export default defineConfig(({ mode }) => {
       ),
       "process.env.BACK_END_API_WITHIN_BOX_GET_URI": JSON.stringify(
         BACK_END_API_WITHIN_BOX_GET_URI
+      ),
+      "process.env.BACK_END_API_DETAILS_GET_URI": JSON.stringify(
+        BACK_END_API_DETAILS_GET_URI
       ),
     },
   };

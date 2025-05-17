@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Map, AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 import ToiletSearch from "../ToiletSearch/ToiletSearch";
+import { fetchDetails } from "../../services/ToiletSearchService";
 import "./CustomMap.css";
 
 const containerStyle = {
@@ -71,8 +72,26 @@ const CustomMap = (props) => {
     if (selectedMarker) {
       const { lat, lng } = selectedMarker.position;
       console.log("Selected marker position:", { lat, lng });
-      //setCurrentPosition({ lat, lng });
+      //Pan map to selected marker
       map?.panTo({ lat, lng });
+      //Get toilet details from api
+      async function fetchData() {
+        const toiletDetails = await fetchDetails(
+          currentPosition,
+          selectedMarker.googlePlaceId,
+          selectedMarker.type
+        );
+        return toiletDetails;
+      }
+      fetchData()
+        .then((data) => {
+          console.log("Toilet details:", data);
+          //TODO : set toilet details in state
+          //props.setToiletDetails(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching toilet details:", error);
+        });
     }
   }, [props.selectedMarkerId]);
 

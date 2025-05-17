@@ -14,13 +14,15 @@ const ToiletResult = ({
       <div>
         <h2>Results:</h2>
         {markers?.map((toilet) => (
-          <ToiletResultTile
-            toilet={toilet}
-            selectedMarkerId={selectedMarkerId}
-            hoverMarkerId={hoverMarkerId}
-            setSelectedMarkerId={setSelectedMarkerId}
-            setHoverMarkerId={setHoverMarkerId}
-          />
+          <div key={toilet.googlePlaceId} className="divider">
+            <ToiletResultTile
+              toilet={toilet}
+              selectedMarkerId={selectedMarkerId}
+              hoverMarkerId={hoverMarkerId}
+              setSelectedMarkerId={setSelectedMarkerId}
+              setHoverMarkerId={setHoverMarkerId}
+            />
+          </div>
         ))}
       </div>
     </>

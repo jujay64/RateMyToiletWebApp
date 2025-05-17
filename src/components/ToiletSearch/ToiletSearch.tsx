@@ -13,6 +13,14 @@ const ToiletSearch = ({
   setShowSearchButton,
 }) => {
   const handleSearchInArea = async () => {
+    if (
+      !mapBounds ||
+      Object.entries(mapBounds).length === 0 ||
+      !mapBounds.current ||
+      Object.entries(mapBounds.current).length === 0
+    ) {
+      return;
+    }
     console.log("ToiletSearch : Fetch data called");
     console.log("currentPosition : " + JSON.stringify(currentPosition));
     console.log("mapBounds : " + JSON.stringify(mapBounds));

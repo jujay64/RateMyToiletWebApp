@@ -19,24 +19,32 @@ const Markers = ({
   return markers?.map((marker) => {
     return (
       <AdvancedMarker
-        key={marker.id}
+        key={marker.googlePlaceId}
         position={marker.position}
         title={marker.name}
-        onMouseEnter={() => setHoverMarkerId(marker.id)}
+        onMouseEnter={() => setHoverMarkerId(marker.googlePlaceId)}
         onMouseLeave={() => setHoverMarkerId(null)}
-        onClick={() => setSelectedMarkerId(marker.id)}
+        onClick={() => setSelectedMarkerId(marker.googlePlaceId)}
         className={"custom-marker"}
         style={{
           transform: `scale(${
-            [hoverMarkerId, selectedMarkerId].includes(marker.id) ? 1.3 : 1
+            [hoverMarkerId, selectedMarkerId].includes(marker.googlePlaceId)
+              ? 1.3
+              : 1
           })`,
           //transformOrigin: AdvancedMarkerAnchorPoint["BOTTOM"].join(" "),
         }}
       >
         <Pin
-          background={selectedMarkerId === marker.id ? "#04aa6d" : null}
-          borderColor={selectedMarkerId === marker.id ? "#405d27" : null}
-          glyphColor={selectedMarkerId === marker.id ? "#405d27" : null}
+          background={
+            selectedMarkerId === marker.googlePlaceId ? "#04aa6d" : null
+          }
+          borderColor={
+            selectedMarkerId === marker.googlePlaceId ? "#405d27" : null
+          }
+          glyphColor={
+            selectedMarkerId === marker.googlePlaceId ? "#405d27" : null
+          }
         />
       </AdvancedMarker>
     );
@@ -58,7 +66,7 @@ const CustomMap = (props) => {
     console.log("Selected marker ID:", props.selectedMarkerId);
     //Get position of selected marker
     const selectedMarker = props.markers.find(
-      (marker) => marker.id === props.selectedMarkerId
+      (marker) => marker.googlePlaceId === props.selectedMarkerId
     );
     if (selectedMarker) {
       const { lat, lng } = selectedMarker.position;

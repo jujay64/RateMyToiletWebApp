@@ -42,7 +42,8 @@ const fetchWithinBox = async (
     .then((response) => response.json())
     .then((data) => {
       const toilets = data.map((toilet) => ({
-        id: toilet.googlePlaceId,
+        id: toilet.id,
+        googlePlaceId: toilet.googlePlaceId,
         position: { lat: toilet.latitude, lng: toilet.longitude },
         name: toilet.name,
         type: toilet.type,

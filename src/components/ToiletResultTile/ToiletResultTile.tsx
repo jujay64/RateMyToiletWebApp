@@ -10,18 +10,18 @@ const ToiletResultTile = ({
   setHoverMarkerId,
 }) => {
   const additionalClassName =
-    selectedMarkerId === toilet.id
+    selectedMarkerId === toilet.googlePlaceId
       ? " selected"
-      : hoverMarkerId === toilet.id
+      : hoverMarkerId === toilet.googlePlaceId
       ? " hover"
       : "";
   return (
     <div
       className={"tileContainer fontBodyMedium" + additionalClassName}
       onClick={() => {
-        setSelectedMarkerId(toilet.id);
+        setSelectedMarkerId(toilet.googlePlaceId);
       }}
-      onMouseEnter={() => setHoverMarkerId(toilet.id)}
+      onMouseEnter={() => setHoverMarkerId(toilet.googlePlaceId)}
       onMouseLeave={() => setHoverMarkerId(null)}
     >
       <div className="title fontHeadlineSmall">
@@ -32,7 +32,7 @@ const ToiletResultTile = ({
           <span className="ratingValue">{toilet.rating}</span>
           <span className="ratingStars">
             <ReactStars
-              key={toilet.id}
+              key={toilet.googlePlaceId}
               count={5}
               size={15}
               activeColor="#ffd700"

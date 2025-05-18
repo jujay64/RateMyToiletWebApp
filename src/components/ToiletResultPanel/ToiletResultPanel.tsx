@@ -5,11 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 
 import "./ToiletResultPanel.css";
+import ToiletDetail from "../ToiletDetail/ToiletDetail";
 
 const ToiletResultPanel = (props) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   const handleSidePanelToggle = () => setIsSidePanelOpen(!isSidePanelOpen);
+
+  const hasDetails =
+    props.toiletDetails && Object.keys(props.toiletDetails).length > 0;
   return (
     <>
       <div className={`sidepanel ${isSidePanelOpen ? "sidepanel--open" : ""}`}>
@@ -21,6 +25,13 @@ const ToiletResultPanel = (props) => {
           setHoverMarkerId={props.setHoverMarkerId}
         />
       </div>
+      {hasDetails && (
+        <ToiletDetail
+          toiletDetails={props.toiletDetails}
+          setSelectedMarkerId={props.setSelectedMarkerId}
+          setToiletDetails={props.setToiletDetails}
+        />
+      )}
       <div
         className={`sidepanel-toggle-btn ${
           isSidePanelOpen ? "sidepanel-toggle-btn--open" : ""

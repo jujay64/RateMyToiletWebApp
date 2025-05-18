@@ -24,6 +24,7 @@ const App = () => {
             setHoverMarkerId={setHoverMarkerId}
             selectedMarkerId={selectedMarkerId}
             setSelectedMarkerId={setSelectedMarkerId}
+            setToiletDetails={setToiletDetails}
           />
         </APIProvider>
       </div>
@@ -34,6 +35,8 @@ const App = () => {
           setHoverMarkerId={setHoverMarkerId}
           selectedMarkerId={selectedMarkerId}
           setSelectedMarkerId={setSelectedMarkerId}
+          toiletDetails={toiletDetails}
+          setToiletDetails={setToiletDetails}
         />
       )}
     </div>

@@ -86,8 +86,8 @@ const CustomMap = (props) => {
       fetchData()
         .then((data) => {
           console.log("Toilet details:", data);
-          //TODO : set toilet details in state
-          //props.setToiletDetails(data);
+          //set toilet details in state
+          props.setToiletDetails(data);
         })
         .catch((error) => {
           console.error("Error fetching toilet details:", error);

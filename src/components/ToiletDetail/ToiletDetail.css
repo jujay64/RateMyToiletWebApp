@@ -1,0 +1,13 @@
+.detail-panel {
+  position: relative;
+  display: block;
+  top: 60px;
+  height: calc(100% - 80px);
+  margin-left: 20px;
+}
+
+.detail-panel__photos {
+  display: block;
+  width: 100%;
+  height: 240px;
+}

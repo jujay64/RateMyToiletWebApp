@@ -13,6 +13,11 @@ const App = () => {
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const hasMarkers = markers != null && markers.length != 0;
 
+  useEffect(() => {
+    if(selectedMarkerId == null)
+      setToiletDetails({});
+  }, [selectedMarkerId]);
+  
   return (
     <div>
       <div className="map">

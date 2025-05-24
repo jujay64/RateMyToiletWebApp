@@ -173,6 +173,7 @@ const CustomMap = (props) => {
               doInitialSearch={doInitialSearch}
               showSearchButton={showSearchButton}
               setShowSearchButton={setShowSearchButton}
+              setSelectedMarkerId={props.setSelectedMarkerId}
             />
           ) : (
             ""

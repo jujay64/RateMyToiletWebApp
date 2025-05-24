@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import ToiletResult from "../ToiletResult/ToiletResult";
+import ToiletResultList from "../ToiletResultList/ToiletResultList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,8 +16,8 @@ const ToiletResultPanel = (props) => {
     props.toiletDetails && Object.keys(props.toiletDetails).length > 0;
   return (
     <>
-      <div className={`sidepanel ${isSidePanelOpen ? "sidepanel--open" : ""}`}>
-        <ToiletResult
+      <div className={`result-list ${isSidePanelOpen ? "result-list--open" : ""}`}>
+        <ToiletResultList
           markers={props.markers}
           selectedMarkerId={props.selectedMarkerId}
           hoverMarkerId={props.hoverMarkerId}
@@ -26,15 +26,17 @@ const ToiletResultPanel = (props) => {
         />
       </div>
       {hasDetails && (
-        <ToiletDetail
-          toiletDetails={props.toiletDetails}
-          setSelectedMarkerId={props.setSelectedMarkerId}
-          setToiletDetails={props.setToiletDetails}
-        />
+        <div className={`detail ${isSidePanelOpen ? "detail--open" : ""}`}>
+          <ToiletDetail
+            toiletDetails={props.toiletDetails}
+            setSelectedMarkerId={props.setSelectedMarkerId}
+            setToiletDetails={props.setToiletDetails}
+          />
+        </div>
       )}
       <div
         className={`sidepanel-toggle-btn ${
-          isSidePanelOpen ? "sidepanel-toggle-btn--open" : ""
+          isSidePanelOpen && hasDetails ? "sidepanel-toggle-btn--open-with-detail" : isSidePanelOpen ? "sidepanel-toggle-btn--open" : ""
         }`}
         onClick={handleSidePanelToggle}
       >

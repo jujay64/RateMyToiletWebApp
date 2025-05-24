@@ -11,6 +11,7 @@ const ToiletSearch = ({
   doInitialSearch,
   showSearchButton,
   setShowSearchButton,
+  setSelectedMarkerId
 }) => {
   const handleSearchInArea = async () => {
     if (
@@ -21,6 +22,8 @@ const ToiletSearch = ({
     ) {
       return;
     }
+    setSelectedMarkerId(null);
+    setShowSearchButton(false);
     console.log("ToiletSearch : Fetch data called");
     console.log("currentPosition : " + JSON.stringify(currentPosition));
     console.log("mapBounds : " + JSON.stringify(mapBounds));
@@ -35,7 +38,6 @@ const ToiletSearch = ({
     );
     console.log("results : " + JSON.stringify(results));
     setMarkers(results);
-    setShowSearchButton(false);
   };
 
   useEffect(() => {

@@ -15,6 +15,7 @@ const ToiletResultTile = ({
       : hoverMarkerId === toilet.googlePlaceId
       ? " hover"
       : "";
+  const distance = toilet.distance >= 1 ? toilet.distance + 'km' : toilet.distance * 1000 + 'm';
   return (
     <div
       className={"tileContainer fontBodyMedium" + additionalClassName}
@@ -25,7 +26,7 @@ const ToiletResultTile = ({
       onMouseLeave={() => setHoverMarkerId(null)}
     >
       <div className="title fontHeadlineSmall">
-        {toilet.name} · {toilet.distance}km
+        {toilet.name} · {distance}
       </div>
       {toilet.ratingCount > 0 ? (
         <div className="rating">

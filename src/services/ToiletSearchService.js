@@ -87,4 +87,20 @@ const fetchDetails = async (currentPosition, googlePlaceId, type) => {
     .catch((error) => console.error("Error fetching data:", error));
 };
 
-export { fetchNearby, fetchWithinBox, fetchDetails };
+const fetchPhotoUrl = async (photoReference, maxHeightPx, maxWidthPx) => {
+  console.log("fetchPhotoUrl called");
+  photoReference = photoReference.replace("places/", "");
+  return fetch(
+    `https://${process.env.BACK_END_API_DOMAIN}:${process.env.BACK_END_API_PORT}${process.env.BACK_END_API_DETAILS_GET_URI}/${photoReference}?maxHeightPx=${maxHeightPx}&maxWidthPx=${maxWidthPx}`
+  )
+    .then((data) => {
+      if (data.status === 200) {
+        return data.text();
+      } else {
+        throw new Error("Failed to fetch photo URL");
+      }
+    })
+    .catch((error) => console.error("Error fetching photo URL:", error));
+}
+
+export { fetchNearby, fetchWithinBox, fetchDetails, fetchPhotoUrl };

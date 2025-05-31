@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { fetchPhotoUrl } from "../../services/ToiletSearchService";
+import { fetchPhoto } from "../../services/ToiletSearchService";
 import "./ToiletDetail.css";
 import ReactStars from "react-rating-stars-component";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+import noPhotoAvailable from '../../assets/no-photo-available.jpg';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const ToiletDetail = ({
   toiletDetails,
@@ -31,16 +33,16 @@ const ToiletDetail = ({
           name: photo.name,
           description: photo.authorAttribution.userName,
           height: photo.height,
-          width: photo.width
+          width: photo.width,
         });
       });
     }
     // If first photo has no url and has a name (from google maps), fetch the url from google maps api
     if (photos.length > 0 && photos[0].isToBeFetched && photos[0].name) {
       const firstPhoto = photos[0];
-      const photoUrl = await fetchPhotoUrl(firstPhoto.name, firstPhoto.height, firstPhoto.width);
-      console.log("photoUrl", photoUrl);
-      firstPhoto.original = photoUrl;
+      const photo = await fetchPhoto(firstPhoto.name, 400, 400);
+      // Create photo url from content
+      firstPhoto.original = 'data:image/png;base64,' + photo;
       firstPhoto.isToBeFetched = false;
     }
     return photos;
@@ -59,10 +61,11 @@ const ToiletDetail = ({
     console.log("Slide changed to index:", index);
     const currentPhoto = photos[index];
     if (currentPhoto && currentPhoto.name && currentPhoto.isToBeFetched) {
-      fetchPhotoUrl(currentPhoto.name, currentPhoto.height, currentPhoto.width)
-        .then((url) => {
+      fetchPhoto(currentPhoto.name, 400, 400)
+        .then((content) => {
+          const photoUrl = 'data:image/png;base64,' + content;
           const updatedPhotos = [...photos];
-          updatedPhotos[index].original = url;
+          updatedPhotos[index].original = photoUrl;
           updatedPhotos[index].isToBeFetched = false;
           setPhotos(updatedPhotos);
         })
@@ -73,7 +76,7 @@ const ToiletDetail = ({
   };
   console.log("photos", photos);
   const distance = toiletDetails.distance >= 1 ? toiletDetails.distance + 'km' : toiletDetails.distance * 1000 + 'm';
-
+  
   return (
     <>  
       <div className={`detail-panel`}>
@@ -84,13 +87,13 @@ const ToiletDetail = ({
           }}
           aria-label="Close"
         >
-          Close
+          <FontAwesomeIcon icon={faXmark} />
         </button>
         <div className="detail-panel__photos">
-          {photos && photos.length > 0 ? (
-            <ImageGallery items={photos} onSlide={handleOnSlide} showBullets={true} showPlayButton={false}/>
+          {photos && photos.length > 0 ? (        
+          <ImageGallery items={photos} onSlide={handleOnSlide} showBullets={true} showPlayButton={false} />
           ) : (
-            <div className="detail-panel__no-photo">No photo available</div>
+          <img src={noPhotoAvailable} alt="No photo available" />
           )}
         </div>
         <div className="detail-panel__info">

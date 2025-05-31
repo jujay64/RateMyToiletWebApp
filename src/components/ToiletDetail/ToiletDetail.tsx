@@ -15,7 +15,7 @@ const ToiletDetail = ({
 }) => {
   const [photos, setPhotos] = useState([]);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  var currentPhotoIndex = useRef(0);
+  const currentPhotoIndex = useRef(0);
   const preparePhotos = async (toiletDetails) => {
     const photos = [];
     if (toiletDetails.photos && toiletDetails.photos.length > 0) {
@@ -64,6 +64,7 @@ const ToiletDetail = ({
 
   useEffect(() => {
     currentPhotoIndex.current = 0;
+    setIsFullScreen(false);
     const fetchPhotos = async () => {
       const preparedPhotos = await preparePhotos(toiletDetails);
       setPhotos(preparedPhotos);
@@ -72,12 +73,12 @@ const ToiletDetail = ({
   }, [toiletDetails]);
 
   const handleOnSlide = (index) => {
-    console.log("isFullScreen ?", isFullScreen.current);
+    console.log("isFullScreen ?", isFullScreen);
     console.log("Slide changed to index:", index);
     currentPhotoIndex.current = index;
     const currentPhoto = photos[index];
     if (
-      !isFullScreen.current &&
+      !isFullScreen &&
       currentPhoto &&
       currentPhoto.name &&
       currentPhoto.isToBeFetchedOriginal
@@ -94,7 +95,7 @@ const ToiletDetail = ({
           console.error("Error fetching original photo URL:", error);
         });
     } else if (
-      isFullScreen.current &&
+      isFullScreen &&
       currentPhoto &&
       currentPhoto.name &&
       currentPhoto.isToBeFetchedFullscreen
@@ -114,13 +115,13 @@ const ToiletDetail = ({
   };
 
   const handleOnScreenChange = (value) => {
-    setIsFullScreen(value);
+    const isFullScreen = value;
     console.log("Current photo index:", currentPhotoIndex.current);
     const currentPhoto = photos[currentPhotoIndex.current];
     console.log("Screen change to:", value);
     console.log("Current photo:", currentPhoto);
     if (
-      !isFullScreen.current &&
+      !isFullScreen &&
       currentPhoto &&
       currentPhoto.name &&
       currentPhoto.isToBeFetchedOriginal
@@ -138,7 +139,7 @@ const ToiletDetail = ({
           console.error("Error fetching original photo URL:", error);
         });
     } else if (
-      isFullScreen.current &&
+      isFullScreen &&
       currentPhoto &&
       currentPhoto.name &&
       currentPhoto.isToBeFetchedFullscreen
@@ -157,6 +158,7 @@ const ToiletDetail = ({
           console.error("Error fetching fullscreen photo URL:", error);
         });
     }
+    setIsFullScreen(isFullScreen);
   };
 
   console.log("photos", photos);
@@ -189,7 +191,6 @@ const ToiletDetail = ({
               showBullets={true}
               showPlayButton={false}
               onScreenChange={(value) => handleOnScreenChange(value)}
-              originalClass="detail-panel__photos original"
             />
           ) : (
             <img src={noPhotoAvailable} alt="No photo available" />

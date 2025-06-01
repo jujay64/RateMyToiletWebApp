@@ -16,6 +16,9 @@ const ToiletDetail = ({
   const [photos, setPhotos] = useState([]);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const currentPhotoIndex = useRef(0);
+  const [activeContentIndex, setActiveContentIndex] = useState(0);
+  // Prepare photos for the gallery
+  // This function prepares the photos for the gallery, fetching the first one to show if necessary
   const preparePhotos = async (toiletDetails) => {
     const photos = [];
     if (toiletDetails.photos && toiletDetails.photos.length > 0) {
@@ -64,6 +67,7 @@ const ToiletDetail = ({
 
   useEffect(() => {
     currentPhotoIndex.current = 0;
+    setActiveContentIndex(0);
     setIsFullScreen(false);
     const fetchPhotos = async () => {
       const preparedPhotos = await preparePhotos(toiletDetails);
@@ -196,35 +200,85 @@ const ToiletDetail = ({
             <img src={noPhotoAvailable} alt="No photo available" />
           )}
         </div>
-        <div className="detail-panel__info">
-          <div className="title fontHeadlineSmall">
-            {toiletDetails.name} · {distance}
-          </div>
-          {toiletDetails.ratingCount > 0 ? (
-            <div className="rating">
-              <span className="ratingValue">{toiletDetails.rating}</span>
-              <span className="ratingStars">
-                <ReactStars
-                  key={toiletDetails.googlePlaceId}
-                  count={5}
-                  size={15}
-                  activeColor="#ffd700"
-                  edit={false}
-                  value={toiletDetails.rating}
-                  isHalf={true}
-                  classNames="ratingStars"
-                />
-              </span>
-              <span className="ratingCount">({toiletDetails.ratingCount})</span>
-            </div>
-          ) : (
-            <div className="rating">No reviews yet</div>
-          )}
-          <div className="typeAddress">
-            <span>{toiletDetails.type}</span> ·{" "}
-            <span>{toiletDetails.address}</span>
-          </div>
+        {/* Tabs */}
+        <div id="tabs">
+          <menu>
+            <button
+              className={activeContentIndex === 0 ? "active" : ""}
+              onClick={() => setActiveContentIndex(0)}
+            >
+              Description
+            </button>
+            <button
+              className={activeContentIndex === 1 ? "active" : ""}
+              onClick={() => setActiveContentIndex(1)}
+            >
+              Reviews
+            </button>
+          </menu>
         </div>
+        {activeContentIndex == 0 ? (
+          <div className="detail-panel__info">
+            <div className="title fontHeadlineSmall">
+              {toiletDetails.name} · {distance}
+            </div>
+            {toiletDetails.ratingCount > 0 ? (
+              <div className="rating">
+                <span className="ratingValue">{toiletDetails.rating}</span>
+                <span className="ratingStars">
+                  <ReactStars
+                    key={toiletDetails.googlePlaceId}
+                    count={5}
+                    size={15}
+                    activeColor="#ffd700"
+                    edit={false}
+                    value={toiletDetails.rating}
+                    isHalf={true}
+                    classNames="ratingStars"
+                  />
+                </span>
+                <span className="ratingCount">
+                  ({toiletDetails.ratingCount})
+                </span>
+              </div>
+            ) : (
+              <div className="rating">No reviews yet</div>
+            )}
+            <div className="typeAddress">
+              <span>{toiletDetails.type}</span> ·{" "}
+              <span>{toiletDetails.address}</span>
+            </div>
+          </div>
+        ) : null}
+        {activeContentIndex == 1 ? (
+          <div className="detail-panel__reviews">
+            {toiletDetails.reviews && toiletDetails.reviews.length > 0 ? (
+              toiletDetails.reviews.map((review, index) => (
+                <div key={index} className="review">
+                  <div className="review__author">
+                    {review.authorName} ·{" "}
+                    <span className="review__date">
+                      {new Date(review.time * 1000).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="review__text">{review.text}</div>
+                  <div className="review__rating">
+                    <ReactStars
+                      count={5}
+                      size={15}
+                      activeColor="#ffd700"
+                      edit={false}
+                      value={review.rating}
+                      isHalf={true}
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-reviews">No reviews available</div>
+            )}
+          </div>
+        ) : null}
       </div>
     </>
   );

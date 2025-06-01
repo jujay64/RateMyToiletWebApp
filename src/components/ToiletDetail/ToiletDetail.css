@@ -1,5 +1,6 @@
 .detail-panel {
   height: 100%;
+  overflow: auto;
 }
 
 .detail-panel__close-button {
@@ -54,4 +55,38 @@
 
 .image-gallery {
   align-content: center;
+}
+
+#tabs {
+  max-width: 50rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+#tabs menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.25rem;
+}
+
+#tabs button {
+  font: inherit;
+  font-size: 0.85rem;
+  border: none;
+  color: #5e5e5e;
+  border-radius: 4px 4px 0 0;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+#tabs button.active {
+  background-color: #04aa6d;
+  color: white;
+}
+
+#tabs button:not(.active):hover {
+  background-color: #d9eee1;
 }
